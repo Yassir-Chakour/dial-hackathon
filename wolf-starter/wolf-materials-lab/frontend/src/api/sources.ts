@@ -27,6 +27,11 @@ export async function uploadSourceFile(
   return response.data;
 }
 
+export async function getFranceDemoFixture(): Promise<Blob> {
+  const response = await apiClient.get<Blob>('/demo/france-v2', { responseType: 'blob' });
+  return response.data;
+}
+
 export async function getSourceDetail(sourceId: string): Promise<SourceDetailResponse> {
   const response = await apiClient.get<SourceDetailResponse>(`/sources/${sourceId}`);
   return response.data;

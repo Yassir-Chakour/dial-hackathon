@@ -29,6 +29,7 @@ services:
       DATABASE_URL: postgresql+psycopg://wolf:${POSTGRES_PASSWORD}@postgres:5432/wolf_materials
       SOURCE_STORAGE_MODE: object_storage
       OBJECT_STORAGE_DIR: /app/data/objects
+      SEED_FRANCE_BASELINE: ${SEED_FRANCE_BASELINE:-true}
     depends_on:
       postgres:
         condition: service_healthy

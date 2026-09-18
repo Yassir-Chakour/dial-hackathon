@@ -10,6 +10,14 @@ __pycache__
 *.db
 data
 tests
+!tests/
+!tests/acceptance/
+!tests/acceptance/fixtures/
+!tests/acceptance/fixtures/france/
+!tests/acceptance/fixtures/france/v1/
+!tests/acceptance/fixtures/france/v1/spend-FR-v1.csv
+!tests/acceptance/fixtures/france/v2-replacement/
+!tests/acceptance/fixtures/france/v2-replacement/FR-v2--Sheet1.csv
 evidence
 .git
 .gitignore

@@ -93,8 +93,9 @@ class SourceRepository:
         session.flush()
         return version
 
-    def get_current_version(self, session: Session, scope_key: str) -> SourceVersion | None:
-        return session.scalar(select(SourceVersion).where(SourceVersion.scope_key == scope_key,
+    def get_current_version(self, session: Session, market: str) -> SourceVersion | None:
+        """Return the latest accepted version for a market."""
+        return session.scalar(select(SourceVersion).where(SourceVersion.market == market,
                                                           SourceVersion.status == SourceStatus.ACCEPTED.value)
                               .order_by(SourceVersion.created_at.desc()))
 

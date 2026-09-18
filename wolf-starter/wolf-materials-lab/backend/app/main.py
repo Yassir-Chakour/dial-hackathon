@@ -14,6 +14,7 @@ from app.api.errors import (
 )
 from app.api.approvals import router as approvals_router
 from app.api.corrections import router as corrections_router
+from app.api.demo import router as demo_router
 from app.api.evidence import router as evidence_router
 from app.api.health import router as health_router
 from app.api.ingestion import router as ingestion_router
@@ -99,6 +100,7 @@ def build_app(settings: Settings | None = None, is_ready: bool = True) -> FastAP
     app.include_router(recommendations_router, prefix="/api/v1")
     app.include_router(evidence_router, prefix="/api/v1")
     app.include_router(corrections_router, prefix="/api/v1")
+    app.include_router(demo_router, prefix="/api/v1")
     app.include_router(approvals_router, prefix="/api/v1")
     app.include_router(replays_router, prefix="/api/v1")
     app.include_router(review_queue_router, prefix="/api/v1")

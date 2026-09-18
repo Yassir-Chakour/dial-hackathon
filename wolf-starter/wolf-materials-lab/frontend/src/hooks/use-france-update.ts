@@ -12,8 +12,8 @@ import type {
 import { useState, useEffect, useCallback } from 'react';
 
 import { parseApiError } from 'src/lib/api-errors';
-import { uploadSourceFile } from 'src/api/sources';
 import { getRecommendationEvidence } from 'src/api/evidence';
+import { uploadSourceFile, getFranceDemoFixture } from 'src/api/sources';
 import {
   replayEvent,
   listExceptions,
@@ -122,19 +122,15 @@ export function useFranceUpdate() {
     }
   }, [runData?.status, loadFranceData]);
 
-  // Action: Upload synthetic France v2 fixture & start workflow
+  // Action: Upload the official synthetic France v2 fixture & start workflow
   const startDemoWorkflow = async (csvContent?: string) => {
     setActionLoading(true);
     setFeedback(null);
     try {
-      const defaultCsv =
-        'Item,Invoice,Supplier,Product,Currency,Value,RecordType\n' +
-        'TXN-000505,FAC-001,sup-novex,WLF-1001,EUR,2475.64,line\n' +
-        'TXN-000561,FAC-002,sup-aster,WLF-1008,EUR,11336.16,line\n' +
-        'TXN-000599,FAC-003,sup-aster,WLF-1008,EUR,5200.00,line\n';
+      const sourceContent = csvContent || (await getFranceDemoFixture());
 
       const uploadRes = await uploadSourceFile(
-        csvContent || defaultCsv,
+        sourceContent,
         'FR-v2--Sheet1.csv',
         'FR',
         true
