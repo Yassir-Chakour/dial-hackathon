@@ -72,6 +72,17 @@ def test_parse_allowed_origins() -> None:
         parse_allowed_origins(["ftp://invalid-url"])
 
 
+def test_environment_cors_origins_accepts_plain_url(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Deployment env vars may contain one URL without JSON list encoding."""
+    monkeypatch.setenv("APP_ENV", "production")
+    monkeypatch.setenv("CORS_ORIGINS", "https://frontend.example.com/")
+    monkeypatch.setenv("API_HOST", "127.0.0.1")
+
+    settings = Settings()
+
+    assert settings.cors_origins == ["https://frontend.example.com"]
+
+
 def test_secret_token_never_leaked_in_str() -> None:
     """Test model_token SecretStr masks value in string representation."""
     settings = Settings(model_token=SecretStr("super-secret-key-12345"))

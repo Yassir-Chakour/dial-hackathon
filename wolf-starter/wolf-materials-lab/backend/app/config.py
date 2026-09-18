@@ -1,11 +1,12 @@
 """Configuration and typed settings for Wolf Materials Lab backend."""
 
 from functools import lru_cache
+from typing import Annotated
 from typing import Any, Literal
 from urllib.parse import urlparse
 
 from pydantic import Field, SecretStr, field_validator, model_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 AppEnv = Literal["development", "test", "production"]
 LogLevel = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
@@ -75,7 +76,10 @@ class Settings(BaseSettings):
     app_name: str = "wolf-materials-backend"
     app_version: str = "0.1.0"
     log_level: LogLevel = "INFO"
-    cors_origins: list[str] = Field(default_factory=list)
+    # NoDecode is intentional: deployment platforms commonly provide this as a
+    # comma-separated value (or a single URL), while local config may use JSON.
+    # Let the validator below normalize both forms consistently.
+    cors_origins: Annotated[list[str], NoDecode] = Field(default_factory=list)
     api_host: str = "127.0.0.1"
     api_port: int = Field(default=8000, ge=1, le=65535)
     allow_external_bind: bool = False
