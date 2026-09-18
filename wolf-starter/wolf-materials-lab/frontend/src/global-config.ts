@@ -34,7 +34,10 @@ export type ConfigValue = {
 export const CONFIG: ConfigValue = {
   appName: 'Luxury Automotive Materials Intelligence',
   appVersion: packageJson.version,
-  serverUrl: process.env.NEXT_PUBLIC_SERVER_URL ?? '',
+  // The frontend image is built with NEXT_PUBLIC_API_BASE_URL in Docker/Coolify.
+  // Keep NEXT_PUBLIC_SERVER_URL as a backwards-compatible fallback for local hosts.
+  serverUrl:
+    process.env.NEXT_PUBLIC_API_BASE_URL ?? process.env.NEXT_PUBLIC_SERVER_URL ?? '',
   assetsDir: process.env.NEXT_PUBLIC_ASSETS_DIR ?? '',
   isStaticExport: JSON.parse(process.env.BUILD_STATIC_EXPORT ?? 'false'),
   /**
