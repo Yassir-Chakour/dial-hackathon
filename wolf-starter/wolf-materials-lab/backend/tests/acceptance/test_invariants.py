@@ -24,9 +24,6 @@ import pytest
 
 from app.decisions.calculator import build_decision_input_snapshot, calculate_decision_facts
 from app.decisions.contracts import DecisionRecord
-from app.ingestion.classifier import classify_row
-from app.ingestion.contracts import HeaderContext, SourceRow
-from app.ingestion.csv_reader import read_csv_rows
 from app.ingestion.normalizers import parse_decimal
 from app.reconciliation.apply import apply_replacement
 from app.reconciliation.contracts import EvidenceRef, ReconciliationRecord, UpdateScope

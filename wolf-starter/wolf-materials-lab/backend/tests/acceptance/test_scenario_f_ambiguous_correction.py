@@ -10,13 +10,10 @@ Verifies:
 - Approving with exact recalculated calculation_hash succeeds (HTTP 200).
 """
 
-from decimal import Decimal
 import pytest
 from httpx import AsyncClient
 
 from app.db.models import Recommendation, RecommendationStatus, SourceRecord
-from app.decisions.calculator import build_decision_input_snapshot, calculate_decision_facts
-from app.decisions.contracts import DecisionRecord
 
 
 @pytest.mark.asyncio

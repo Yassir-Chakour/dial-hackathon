@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 import pytest
 
-from app.reconciliation.contracts import EvidenceRef, ReconciliationRecord, UpdateScope
+from app.reconciliation.contracts import EvidenceRef, ReconciliationRecord
 
 
 FIXTURES_ROOT = Path(__file__).resolve().parent / "fixtures" / "france"

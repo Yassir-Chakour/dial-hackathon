@@ -9,9 +9,7 @@ Verifies:
 
 import csv
 from decimal import Decimal
-import pytest
 
-from app.reconciliation.totals import calculate_signed_totals
 from tests.acceptance.conftest import FranceGoldenFixtures
 
 

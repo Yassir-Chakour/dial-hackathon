@@ -50,6 +50,7 @@ class SourceRow(BaseModel):
     cells: list[Any] = Field(default_factory=list)
     raw_text: str | None = None
     header_context: HeaderContext | None = None
+    metadata: dict[str, Any] = Field(default_factory=dict)
 
 
 class EvidenceRef(BaseModel):

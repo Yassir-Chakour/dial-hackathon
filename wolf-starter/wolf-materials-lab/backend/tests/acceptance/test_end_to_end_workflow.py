@@ -20,7 +20,7 @@ from httpx import AsyncClient
 from app.persistence import SourceRepository, SourceService
 from app.reconciliation.apply import apply_replacement
 from app.reconciliation.changes import build_change_set
-from app.reconciliation.contracts import EvidenceRef, ReconciliationRecord, UpdateScope
+from app.reconciliation.contracts import EvidenceRef, UpdateScope
 from app.reconciliation.totals import calculate_signed_totals
 from tests.acceptance.conftest import FranceGoldenFixtures, parse_v1_reconciliation_records
 
@@ -76,6 +76,7 @@ async def test_end_to_end_france_workflow(client: AsyncClient, app, france_golde
     )
     assert res_upload.status_code == 201
     v2_file_id = res_upload.json()["source_id"]
+    assert v2_file_id
 
     # Step 4: Show changed and preserved records
     # Pure-function verification with golden fixtures

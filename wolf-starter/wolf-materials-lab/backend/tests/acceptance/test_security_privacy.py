@@ -6,13 +6,11 @@ Verifies:
 - Privacy: logs and error responses omit database credentials, secrets, and raw row contents; synthetic labels on fixtures.
 """
 
-from decimal import Decimal
-import io
 import pytest
 from httpx import AsyncClient
 
 from app.db.models import MockAction
-from app.ingestion.csv_reader import CsvReaderError, read_csv_rows
+from app.ingestion.csv_reader import read_csv_rows
 from app.persistence import SourceRepository
 
 
@@ -62,6 +60,7 @@ async def test_security_error_responses_omit_database_credentials(client: AsyncC
     res = await client.get("/api/v1/test/unhandled-error")
     assert res.status_code == 500
     body = res.json()
+    assert isinstance(body, dict)
     # Message should be generic or sanitized
     response_text = res.text.lower()
     assert "postgresql://" not in response_text

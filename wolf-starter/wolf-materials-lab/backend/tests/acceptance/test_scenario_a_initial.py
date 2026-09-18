@@ -11,14 +11,11 @@ Verifies:
 
 from decimal import Decimal
 import hashlib
-import json
-import pytest
 
 from app.ingestion.classifier import classify_row
 from app.ingestion.contracts import HeaderContext, SourceRow
 from app.ingestion.csv_reader import read_csv_rows
 from app.persistence import SourceRepository, SourceService
-from app.reconciliation.totals import calculate_signed_totals
 from tests.acceptance.conftest import FranceGoldenFixtures
 
 
@@ -110,6 +107,8 @@ def test_scenario_a_invoice_totals_excluded_from_line_arithmetic() -> None:
     )
 
     context = HeaderContext(raw_labels=["Site code", "SITE", "Invoice date", "Invoice total", "Currency", "Invoice", "Article", "Description", "Invoiced quantity", "Quantity unit", "Net value"])
+    assert header_row.row_number == 1
+    assert line_row.row_number == 3
     kind_total, _ = classify_row(total_row, context)
     assert kind_total == "invoice_total"
 

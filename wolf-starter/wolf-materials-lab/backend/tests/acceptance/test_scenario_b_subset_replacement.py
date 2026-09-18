@@ -12,11 +12,10 @@ Verifies:
 from decimal import Decimal
 import json
 from pathlib import Path
-import pytest
 
 from app.reconciliation.apply import apply_replacement
 from app.reconciliation.changes import build_change_set
-from app.reconciliation.contracts import EvidenceRef, ReconciliationRecord, UpdateScope
+from app.reconciliation.contracts import EvidenceRef, UpdateScope
 from app.reconciliation.totals import calculate_signed_totals, reconcile_totals
 from tests.acceptance.conftest import FranceGoldenFixtures, parse_v1_reconciliation_records
 

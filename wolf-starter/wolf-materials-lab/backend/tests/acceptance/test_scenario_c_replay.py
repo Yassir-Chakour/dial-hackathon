@@ -8,9 +8,8 @@ Verifies:
 """
 
 from decimal import Decimal
-import pytest
 
-from app.persistence import SourceRepository, SourceService
+from app.persistence import SourceService
 from app.reconciliation.apply import apply_replacement
 from app.reconciliation.contracts import EvidenceRef, ReconciliationRecord, UpdateScope
 from app.reconciliation.totals import calculate_signed_totals

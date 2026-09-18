@@ -5,17 +5,13 @@ explicit exceptions, review issues, or rejections—never fabricating accepted d
 """
 
 from decimal import Decimal
-import io
-from pathlib import Path
 import pytest
 from httpx import AsyncClient
 
-from app.api.errors import ConflictError
-from app.db.models import Recommendation, RecommendationStatus, SourceRecord
+from app.db.models import Recommendation, RecommendationStatus
 from app.decisions.calculator import build_decision_input_snapshot, calculate_decision_facts
 from app.decisions.contracts import DecisionRecord
 from app.ingestion.csv_reader import CsvReaderError, read_csv_rows
-from app.ingestion.headers import detect_header_context
 from app.ingestion.normalizers import parse_date, parse_decimal
 from app.ingestion.pipeline import IngestionPipeline
 from app.persistence import (
@@ -27,7 +23,6 @@ from app.persistence import (
 )
 from app.reconciliation.apply import apply_replacement
 from app.reconciliation.contracts import EvidenceRef, ReconciliationRecord, UpdateScope
-from app.reconciliation.scope import validate_update_scope
 from tests.acceptance.conftest import FIXTURES_ROOT
 
 
