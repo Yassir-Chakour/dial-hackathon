@@ -43,8 +43,8 @@ services:
     volumes:
       - backend-data:/app/data
     networks:
-      - wolf-private
       - wolf-public
+      - wolf-private
 
   frontend:
     build:
