@@ -42,7 +42,8 @@ async def upload_source(
         )
 
     from pathlib import Path
-    clean_filename = Path(x_filename).name if x_filename else "upload.csv"
+    raw_name = x_filename.replace("\\", "/") if x_filename else "upload.csv"
+    clean_filename = Path(raw_name).name
     if not clean_filename or clean_filename in (".", ".."):
         clean_filename = "upload.csv"
     filename = clean_filename

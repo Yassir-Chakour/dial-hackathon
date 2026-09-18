@@ -82,7 +82,7 @@ class SourceVersion(Base):
     market: Mapped[str] = mapped_column(String(16), nullable=False)
     version_label: Mapped[str] = mapped_column(String(128), nullable=False)
     parent_version_id: Mapped[str | None] = mapped_column(ForeignKey("source_versions.id"), nullable=True)
-    update_mode: Mapped[str] = mapped_column(String(32), nullable=False)
+    update_mode: Mapped[str] = mapped_column(String(32), default="replacement", nullable=False)
     scope_key: Mapped[str] = mapped_column(String(256), nullable=False)
     status: Mapped[str] = mapped_column(String(32), default=SourceStatus.RECEIVED.value, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now_utc, nullable=False)

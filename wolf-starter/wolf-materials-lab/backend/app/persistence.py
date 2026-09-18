@@ -61,6 +61,7 @@ class SourceRepository:
         return source
 
     def create_source_version(self, session: Session, **kwargs: Any) -> SourceVersion:
+        kwargs.setdefault("update_mode", "replacement")
         version = SourceVersion(**kwargs)
         session.add(version)
         session.flush()
@@ -147,13 +148,15 @@ class ReviewRepository:
         session.flush()
         return correction
 
+    create_correction = record_correction
+
     def create_approval(self, session: Session, *, recommendation_id: str, decision: str,
                         reviewer_id: str, reason: str, calculation_hash: str) -> Approval:
         recommendation = session.get(Recommendation, recommendation_id)
         if recommendation is None:
             raise ApprovalError("Recommendation does not exist.")
-        if recommendation.status in {RecommendationStatus.STALE.value, RecommendationStatus.REJECTED.value}:
-            raise ApprovalError("Stale or rejected recommendations cannot be approved.")
+        if recommendation.status in {RecommendationStatus.APPROVED.value, RecommendationStatus.STALE.value, RecommendationStatus.REJECTED.value}:
+            raise ApprovalError("Already approved, stale, or rejected recommendations cannot be approved.")
         if recommendation.calculation_hash != calculation_hash:
             raise ApprovalError("Approval hash does not match the recommendation version.")
         if decision not in {"approved", "rejected"}:
