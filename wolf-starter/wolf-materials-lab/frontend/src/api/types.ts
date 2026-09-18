@@ -79,6 +79,7 @@ export interface WorkflowRunDetailResponse {
     reason?: string;
     [key: string]: unknown;
   } | null;
+  reconciliation?: RecommendationChangesResponse | null;
   issues: Record<string, unknown>[];
   history: string[];
 }

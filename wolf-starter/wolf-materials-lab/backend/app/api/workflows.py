@@ -2,9 +2,12 @@
 
 from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.db.models import WorkflowRun
+from decimal import Decimal
+
+from app.db.models import ReconciliationRun, WorkflowRun
 from app.db.session import get_db
 from app.schemas.api import ResumeRunRequest, WorkflowRunDetailResponse
 from app.schemas.workflow import ResumeWorkflowRequest
@@ -13,7 +16,52 @@ from app.services.workflow_service import WorkflowService
 router = APIRouter(tags=["workflows"])
 
 
-def _build_run_detail(run: WorkflowRun) -> WorkflowRunDetailResponse:
+def _reconciliation_payload(run: WorkflowRun, result_hash: str | None, session: Session) -> dict[str, Any] | None:
+    if not result_hash:
+        return None
+
+    reconciliation = session.scalar(
+        select(ReconciliationRun).where(ReconciliationRun.result_hash == result_hash)
+    )
+    if reconciliation is None:
+        return None
+
+    changes = reconciliation.changes_json or {}
+    added = changes.get("added") or []
+    replaced = changes.get("replaced") or []
+    preserved = changes.get("preserved") or []
+    removed = changes.get("removed_from_current") or []
+
+    def amount(item: dict[str, Any], key: str) -> Decimal:
+        value = item.get(key)
+        return Decimal(str(value)) if value is not None else Decimal("0")
+
+    old_total = sum(
+        (amount(item, "old_value") for item in (*replaced, *preserved, *removed)),
+        Decimal("0"),
+    )
+    current_total = Decimal(str((reconciliation.totals_json or {}).get("current", {}).get("total", "0")))
+
+    return {
+        "recommendation_id": run.id,
+        "scope": reconciliation.scope_json or {},
+        "totals": {
+            "added_count": len(added),
+            "replaced_count": len(replaced),
+            "preserved_count": len(preserved),
+            "removed_count": len(removed),
+            "total_spend_old": str(old_total),
+            "total_spend_new": str(current_total),
+            "spend_difference": str(current_total - old_total),
+        },
+        "added": added,
+        "replaced": replaced,
+        "removed_from_current": removed,
+        "preserved": preserved,
+    }
+
+
+def _build_run_detail(run: WorkflowRun, session: Session) -> WorkflowRunDetailResponse:
     rec_result_id = None
     rec_draft: dict[str, Any] | None = None
     rev_req: dict[str, Any] | None = None
@@ -42,6 +90,7 @@ def _build_run_detail(run: WorkflowRun) -> WorkflowRunDetailResponse:
         reconciliation_result_id=rec_result_id,
         recommendation_draft=rec_draft,
         review_request=rev_req,
+        reconciliation=_reconciliation_payload(run, rec_result_id, session),
         issues=issues,
         history=history,
     )
@@ -56,7 +105,7 @@ async def get_workflow_run(
     run = session.get(WorkflowRun, run_id)
     if run is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Workflow run not found.")
-    return _build_run_detail(run)
+    return _build_run_detail(run, session)
 
 
 @router.post("/workflow-runs/{run_id}/resume", response_model=WorkflowRunDetailResponse)
@@ -89,7 +138,7 @@ async def resume_workflow_run(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
     session.refresh(run)
-    return _build_run_detail(run)
+    return _build_run_detail(run, session)
 
 
 @router.post("/workflow-runs/{run_id}/cancel", response_model=dict[str, str])

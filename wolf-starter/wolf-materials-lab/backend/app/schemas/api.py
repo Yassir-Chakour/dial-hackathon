@@ -69,6 +69,7 @@ class WorkflowRunDetailResponse(BaseModel):
     reconciliation_result_id: str | None = None
     recommendation_draft: dict[str, Any] | None = None
     review_request: dict[str, Any] | None = None
+    reconciliation: dict[str, Any] | None = None
     issues: list[dict[str, Any]] = Field(default_factory=list)
     history: list[str] = Field(default_factory=list)
 

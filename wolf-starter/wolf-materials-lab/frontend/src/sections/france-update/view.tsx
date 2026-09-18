@@ -128,14 +128,14 @@ export function FranceUpdateView() {
 
           {/* Three-Way Comparison: Previous (v1), Incoming (v2), Reconciled */}
           <VersionCompare
-            changes={changes}
+            changes={changes || runData?.reconciliation || null}
             previousVersionId={runData?.previous_version_id}
             incomingVersionId={runData?.source_version_id}
           />
 
           {/* Reconciled Line Changes Table */}
           <ChangeSetTable
-            changes={changes}
+            changes={changes || runData?.reconciliation || null}
             onSelectEvidence={handleOpenEvidence}
             onOpenCorrection={handleOpenCorrection}
           />
