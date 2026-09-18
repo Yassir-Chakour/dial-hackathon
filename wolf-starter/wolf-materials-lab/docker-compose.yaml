@@ -63,7 +63,9 @@ services:
     expose:
       - "8084"
     labels:
+      traefik.enable: "true"
       traefik.docker.network: ygkcgkgo0s8wg40ocgkwogg4
+      traefik.http.services.frontend.loadbalancer.server.port: "8084"
     networks:
       - wolf-public
 
