@@ -220,13 +220,17 @@ class ReconciliationService:
         if previous and previous.market != scope.market:
             issues.append(ReconciliationIssue("cross_market_record", "Scope market differs from previous version."))
         if previous and incoming and previous.scope_key == incoming.scope_key:
+            # Older accepted versions are immutable history, not concurrent
+            # writers. Only an accepted version committed after the version
+            # selected for this run can invalidate its optimistic check.
             accepted = list(session.scalars(select(SourceVersion).where(
                 SourceVersion.scope_key == previous.scope_key,
                 SourceVersion.tenant_id == previous.tenant_id,
                 SourceVersion.status == SourceStatus.ACCEPTED.value,
                 SourceVersion.id != incoming_id,
+                SourceVersion.accepted_at > previous.accepted_at,
             )))
-            if {version.id for version in accepted} != {previous_id}:
+            if accepted:
                 issues.append(ReconciliationIssue(
                     "concurrent_version_change",
                     "The expected current version changed before reconciliation committed.",

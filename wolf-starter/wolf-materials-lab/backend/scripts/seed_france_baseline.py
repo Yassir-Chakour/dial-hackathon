@@ -5,8 +5,10 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
 
+from sqlalchemy import select
+
 from app.config import get_settings
-from app.db.models import SourceStatus
+from app.db.models import SourceStatus, SourceVersion
 from app.db.session import create_database
 from app.persistence import SourceRepository
 
@@ -23,7 +25,15 @@ def seed() -> str:
     repo = SourceRepository()
 
     with db.transaction() as session:
-        existing = repo.get_current_version(session, "FR")
+        # Only the official V1 fixture counts as the seeded baseline. A later
+        # accepted update must never prevent the baseline from being created.
+        existing = session.scalar(
+            select(SourceVersion).where(
+                SourceVersion.market == "FR",
+                SourceVersion.version_label == "FR-v1",
+                SourceVersion.metadata_json["fixture"].as_string() == "backend/demo/france-v1.csv",
+            )
+        )
         if existing is not None:
             return f"France baseline already exists: {existing.id}"
 

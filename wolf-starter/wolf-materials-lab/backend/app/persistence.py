@@ -114,7 +114,7 @@ class SourceRepository:
         if exclude_version_id is not None:
             query = query.where(SourceVersion.id != exclude_version_id)
         return session.scalar(query
-                              .order_by(SourceVersion.created_at.desc()))
+                              .order_by(SourceVersion.accepted_at.desc(), SourceVersion.created_at.desc()))
 
     def insert_source_records(self, session: Session, version_id: str, records: list[dict[str, Any]]) -> list[SourceRecord]:
         result = []
