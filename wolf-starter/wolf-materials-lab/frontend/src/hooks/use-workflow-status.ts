@@ -33,6 +33,13 @@ export function useWorkflowStatus(
     };
   }, []);
 
+  // The workflow run is created after the user uploads a source. Keep the
+  // polling hook synchronized with that newly-created run instead of only
+  // reading the initial value from the first render.
+  useEffect(() => {
+    setRunId(initialRunId);
+  }, [initialRunId]);
+
   const fetchRun = useCallback(async (id: string) => {
     setLoading(true);
     setError(null);
