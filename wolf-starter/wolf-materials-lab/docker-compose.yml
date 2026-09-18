@@ -61,6 +61,8 @@ services:
         condition: service_started
     expose:
       - "8084"
+    labels:
+      traefik.docker.network: ygkcgkgo0s8wg40ocgkwogg4
     networks:
       - wolf-public
 
