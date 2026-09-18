@@ -17,10 +17,10 @@ router = APIRouter(tags=["review_queue"])
 async def list_review_queue(
     session: Session = Depends(get_db),
 ) -> list[ReviewQueueItem]:
-    """List all workflow runs currently paused and awaiting reviewer action."""
+    """List workflow runs paused or flagged for review and awaiting buyer action."""
     runs = session.scalars(
         select(WorkflowRun)
-        .where(WorkflowRun.status == "paused")
+        .where(WorkflowRun.status.in_(["paused", "needs_review"]))
         .order_by(WorkflowRun.created_at.desc())
     ).all()
 
@@ -68,10 +68,10 @@ async def resolve_review_item(
     run = session.get(WorkflowRun, run_id)
     if run is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Workflow run not found.")
-    if run.status != "paused":
+    if run.status not in {"paused", "needs_review"}:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"Run status is '{run.status}'; only 'paused' runs can be resolved.",
+            detail=f"Run status is '{run.status}'; only paused or needs_review runs can be resolved.",
         )
 
     wf_service = WorkflowService()

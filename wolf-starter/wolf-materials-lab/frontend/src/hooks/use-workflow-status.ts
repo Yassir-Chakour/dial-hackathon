@@ -75,7 +75,7 @@ export function useWorkflowStatus(
       }
 
       // Stop condition: status is terminal or paused
-      if (['paused', 'completed', 'failed'].includes(data.status)) {
+      if (['paused', 'needs_review', 'completed', 'failed'].includes(data.status)) {
         setIsPolling(false);
         return;
       }

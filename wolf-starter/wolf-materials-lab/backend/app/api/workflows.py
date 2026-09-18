@@ -69,10 +69,10 @@ async def resume_workflow_run(
     run = session.get(WorkflowRun, run_id)
     if run is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Workflow run not found.")
-    if run.status != "paused":
+    if run.status not in {"paused", "needs_review"}:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"Workflow run cannot be resumed from status '{run.status}'. Must be 'paused'.",
+            detail=f"Workflow run cannot be resumed from status '{run.status}'. Must be paused or needs_review.",
         )
 
     wf_service = WorkflowService()
