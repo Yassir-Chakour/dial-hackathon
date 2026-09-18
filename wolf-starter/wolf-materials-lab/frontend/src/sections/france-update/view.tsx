@@ -80,6 +80,14 @@ export function FranceUpdateView() {
     }
   };
 
+  // Keep the demo focused on the run currently shown in the timeline. Older
+  // failed attempts remain in the audit store, but should not distract from
+  // the buyer decision for this run.
+  const currentReviewQueue = selectedRunId
+    ? reviewQueue.filter((item) => item.run_id === selectedRunId)
+    : reviewQueue.slice(0, 1);
+  const currentExceptions = runData?.status === 'paused' ? [] : exceptions;
+
   return (
     <DashboardContent>
       {/* Action and feedback notifications */}
@@ -142,8 +150,8 @@ export function FranceUpdateView() {
 
           {/* Review Queue & Exceptions (Human-in-the-Loop) */}
           <ReviewQueue
-            queue={reviewQueue}
-            exceptions={exceptions}
+            queue={currentReviewQueue}
+            exceptions={currentExceptions}
             actionLoading={actionLoading}
             onResolveAction={(act) => handleResumeWorkflow(act)}
             onOpenCorrection={() => handleOpenCorrection()}
