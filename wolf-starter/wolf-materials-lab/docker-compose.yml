@@ -35,7 +35,7 @@ services:
     expose:
       - "8000"
     labels:
-      traefik.docker.network: ${COOLIFY_RESOURCE_UUID}_wolf-public
+      traefik.docker.network: ygkcgkgo0s8wg40ocgkwogg4_wolf-public
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/live')"]
       interval: 10s
