@@ -32,8 +32,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    expose:
-      - "8000"
+    ports:
+      - "18000:8000"
     volumes:
       - backend-data:/app/data
     networks:
@@ -51,8 +51,8 @@ services:
     depends_on:
       backend:
         condition: service_started
-    expose:
-      - "8084"
+    ports:
+      - "18084:8084"
     networks:
       - wolf-public
 
