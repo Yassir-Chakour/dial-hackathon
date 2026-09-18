@@ -13,11 +13,11 @@ from sqlalchemy.orm import Session
 from app.config import get_settings
 from app.db.models import (
     Approval,
-    CorrectionRecord,
+    Correction,
+    MaterializedRecord,
     Recommendation,
+    ReconciliationIssueRecord,
     ReconciliationRun,
-    RecordLineageRecord,
-    ReviewQueueRecord,
     SourceRecord,
 )
 from app.db.session import create_database
@@ -100,7 +100,6 @@ def verify_excluded_invoice_totals(session: Session) -> list[VerificationIssue]:
     ).all()
 
     for r in records:
-        # Check raw values or metadata for exclusion reason
         raw = r.raw_values_json or {}
         exclusion_reason = raw.get("exclusion_reason") or "invoice_total_excluded"
         if not exclusion_reason:
@@ -179,7 +178,7 @@ def verify_approvals(session: Session) -> list[VerificationIssue]:
 def verify_corrections(session: Session) -> list[VerificationIssue]:
     """Verify that every correction has original and corrected values, reason, and field name."""
     issues: list[VerificationIssue] = []
-    corrections = session.scalars(select(CorrectionRecord)).all()
+    corrections = session.scalars(select(Correction)).all()
 
     for corr in corrections:
         if not corr.field_name:
@@ -218,52 +217,52 @@ def verify_corrections(session: Session) -> list[VerificationIssue]:
     return issues
 
 
-def verify_lineage_and_supersession(session: Session) -> list[VerificationIssue]:
-    """Verify that every superseded record has a reason and lineage edge."""
+def verify_materialized_lineage(session: Session) -> list[VerificationIssue]:
+    """Verify that every superseded materialized record has a reason and lineage edge."""
     issues: list[VerificationIssue] = []
-    lineages = session.scalars(select(RecordLineageRecord)).all()
+    materialized = session.scalars(select(MaterializedRecord)).all()
 
-    for lin in lineages:
-        if lin.lineage_type in ("superseded", "replaced") and not lin.prior_record_id:
+    for m in materialized:
+        if m.lineage in ("replaced_previous_record", "superseded") and not m.prior_record_id:
             issues.append(
                 VerificationIssue(
                     check_name="supersession_lineage_link",
-                    target_id=lin.id,
-                    message="Superseded lineage edge missing prior_record_id link.",
+                    target_id=m.id,
+                    message=f"Materialized record {m.record_key} marked as {m.lineage} without prior_record_id link.",
                 )
             )
 
     return issues
 
 
-def verify_review_issues(session: Session) -> list[VerificationIssue]:
-    """Verify that every review issue has severity, code/type, and target."""
+def verify_reconciliation_issues(session: Session) -> list[VerificationIssue]:
+    """Verify that every reconciliation issue has severity, code, and event link."""
     issues: list[VerificationIssue] = []
-    reviews = session.scalars(select(ReviewQueueRecord)).all()
+    issues_rows = session.scalars(select(ReconciliationIssueRecord)).all()
 
-    for item in reviews:
+    for item in issues_rows:
         if not item.severity:
             issues.append(
                 VerificationIssue(
                     check_name="review_severity",
                     target_id=item.id,
-                    message="Review issue lacks severity designation.",
+                    message="Reconciliation issue lacks severity designation.",
                 )
             )
-        if not item.issue_type:
+        if not item.code:
             issues.append(
                 VerificationIssue(
                     check_name="review_code",
                     target_id=item.id,
-                    message="Review issue lacks issue_type / code.",
+                    message="Reconciliation issue lacks code.",
                 )
             )
-        if not item.source_version_id:
+        if not item.event_id:
             issues.append(
                 VerificationIssue(
                     check_name="review_target",
                     target_id=item.id,
-                    message="Review issue lacks target source_version_id.",
+                    message="Reconciliation issue lacks target event_id.",
                 )
             )
 
@@ -300,8 +299,8 @@ def run_evidence_check(session: Session) -> VerificationReport:
         ("recommendations_evidence", verify_recommendation_evidence),
         ("approvals_integrity", verify_approvals),
         ("corrections_provenance", verify_corrections),
-        ("lineage_supersession", verify_lineage_and_supersession),
-        ("review_issues", verify_review_issues),
+        ("lineage_supersession", verify_materialized_lineage),
+        ("reconciliation_issues", verify_reconciliation_issues),
         ("reconciliation_totals", verify_reconciliation_totals),
     ]
 
