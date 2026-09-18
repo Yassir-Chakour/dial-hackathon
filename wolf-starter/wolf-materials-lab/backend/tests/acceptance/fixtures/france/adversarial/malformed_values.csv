@@ -1,0 +1,2 @@
+id,iso,month,date,productCode,supplierId,brand,description,cluster,qty,unit,unitPriceEUR,valueEUR,currency,valueLocal,source,matched,route
+TXN-ADV-013,FR,2026-01,bad-date,WLF-1001,sup-novex,Mirka,Malformed row,lack,not-a-number,piece,invalid-price,invalid-val,EUR,200.00,malformed_values.csv,True,indirect

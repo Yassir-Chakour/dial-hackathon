@@ -1,0 +1,12 @@
+{
+  "previous_version_id": "FR-v1",
+  "incoming_version_id": "FR-v2",
+  "scope_suppliers": [
+    "sup-aster"
+  ],
+  "added_count": 16,
+  "replaced_count": 0,
+  "removed_count": 16,
+  "preserved_count": 8,
+  "total_changes": 32
+}

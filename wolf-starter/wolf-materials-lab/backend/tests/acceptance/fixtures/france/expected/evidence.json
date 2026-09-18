@@ -1,0 +1,194 @@
+{
+  "reconciliation_version_id": "recon-FR-002",
+  "source_versions": [
+    "FR-v1",
+    "FR-v2"
+  ],
+  "evidence_references": [
+    {
+      "record_id": "FR-LATEST-0001",
+      "version_id": "FR-v2",
+      "source_row": 1,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0002",
+      "version_id": "FR-v2",
+      "source_row": 2,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0003",
+      "version_id": "FR-v2",
+      "source_row": 3,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0004",
+      "version_id": "FR-v2",
+      "source_row": 4,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0005",
+      "version_id": "FR-v2",
+      "source_row": 5,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0006",
+      "version_id": "FR-v2",
+      "source_row": 6,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0007",
+      "version_id": "FR-v2",
+      "source_row": 7,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0008",
+      "version_id": "FR-v2",
+      "source_row": 8,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0009",
+      "version_id": "FR-v2",
+      "source_row": 9,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0010",
+      "version_id": "FR-v2",
+      "source_row": 10,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0011",
+      "version_id": "FR-v2",
+      "source_row": 11,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0012",
+      "version_id": "FR-v2",
+      "source_row": 12,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0013",
+      "version_id": "FR-v2",
+      "source_row": 13,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0014",
+      "version_id": "FR-v2",
+      "source_row": 14,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0015",
+      "version_id": "FR-v2",
+      "source_row": 15,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-LATEST-0016",
+      "version_id": "FR-v2",
+      "source_row": 16,
+      "lineage": "introduced_by_incoming",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-UNCHANGED-0001",
+      "version_id": "FR-v1",
+      "source_row": 17,
+      "lineage": "preserved_from_previous",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-UNCHANGED-0002",
+      "version_id": "FR-v1",
+      "source_row": 18,
+      "lineage": "preserved_from_previous",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-UNCHANGED-0003",
+      "version_id": "FR-v1",
+      "source_row": 19,
+      "lineage": "preserved_from_previous",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-UNCHANGED-0004",
+      "version_id": "FR-v1",
+      "source_row": 20,
+      "lineage": "preserved_from_previous",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-UNCHANGED-0005",
+      "version_id": "FR-v1",
+      "source_row": 21,
+      "lineage": "preserved_from_previous",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-UNCHANGED-0006",
+      "version_id": "FR-v1",
+      "source_row": 22,
+      "lineage": "preserved_from_previous",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-UNCHANGED-0007",
+      "version_id": "FR-v1",
+      "source_row": 23,
+      "lineage": "preserved_from_previous",
+      "prior_record_id": null
+    },
+    {
+      "record_id": "FR-UNCHANGED-0008",
+      "version_id": "FR-v1",
+      "source_row": 24,
+      "lineage": "preserved_from_previous",
+      "prior_record_id": null
+    }
+  ],
+  "invoice_totals_excluded": [
+    {
+      "row": 2,
+      "invoice_total": "953.04",
+      "reason": "invoice_total_excluded"
+    },
+    {
+      "row": 3,
+      "invoice_total": "953.04",
+      "reason": "invoice_total_excluded"
+    },
+    {
+      "row": 4,
+      "invoice_total": "953.04",
+      "reason": "invoice_total_excluded"
+    }
+  ]
+}

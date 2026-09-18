@@ -1,0 +1,3 @@
+id,iso,month,date,productCode,supplierId,brand,description,cluster,qty,unit,unitPriceEUR,valueEUR,currency,valueLocal,source,matched,route
+TXN-ADV-007,FR,2026-01,2026-01-01,WLF-1001,sup-aster,3M,In scope item,lack,10,piece,20.00,200.00,EUR,200.00,scope_leakage.csv,True,indirect
+TXN-ADV-008,FR,2026-01,2026-01-01,WLF-1005,sup-orbit,Würth,Leaked other supplier item,kabine,10,piece,40.00,400.00,EUR,400.00,scope_leakage.csv,True,direct

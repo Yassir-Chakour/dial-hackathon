@@ -1,0 +1,16 @@
+{
+  "market": "FR",
+  "currency": "EUR",
+  "previous_total": "171941.83",
+  "incoming_total": "90909.28",
+  "preserved_total": "25637.56",
+  "current_total": "116546.84",
+  "delta": "-55394.99",
+  "record_counts": {
+    "previous": 24,
+    "incoming": 16,
+    "current": 24,
+    "preserved": 8,
+    "introduced": 16
+  }
+}

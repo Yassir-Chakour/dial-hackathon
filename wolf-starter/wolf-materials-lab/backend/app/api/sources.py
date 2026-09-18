@@ -34,7 +34,18 @@ async def upload_source(
     if not body:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Empty source file body.")
 
-    filename = x_filename or "upload.csv"
+    MAX_SOURCE_BYTES = 50 * 1024 * 1024  # 50 MB
+    if len(body) > MAX_SOURCE_BYTES:
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail=f"Source file size exceeds maximum limit of {MAX_SOURCE_BYTES} bytes.",
+        )
+
+    from pathlib import Path
+    clean_filename = Path(x_filename).name if x_filename else "upload.csv"
+    if not clean_filename or clean_filename in (".", ".."):
+        clean_filename = "upload.csv"
+    filename = clean_filename
     source_repo = SourceRepository()
 
     # Create or retrieve existing source file by sha256

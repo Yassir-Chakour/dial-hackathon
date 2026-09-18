@@ -1,0 +1,25 @@
+id,iso,month,date,productCode,supplierId,brand,description,cluster,qty,unit,unitPriceEUR,valueEUR,currency,valueLocal,source,matched,route
+FR-PREVIOUS-0001,FR,2026-01,2026-01-10,WLF-1008,sup-aster,3M,Paint cup for compressed-air spray gun,lack,226,piece,70.83,16007.58,EUR,16007.58,synthetic-spend-FR.csv,True,direct
+FR-PREVIOUS-0002,FR,2026-02,2026-02-25,WLF-1008,sup-aster,3M,Paint cup for compressed-air spray gun,lack,174,piece,10.49,1825.26,EUR,1825.26,synthetic-spend-FR.csv,True,direct
+FR-PREVIOUS-0003,FR,2026-03,2026-03-25,WLF-1008,sup-aster,3M,Paint cup for compressed-air spray gun,lack,71,piece,54.18,3846.78,EUR,3846.78,synthetic-spend-FR.csv,True,direct
+FR-PREVIOUS-0004,FR,2026-04,2026-04-14,WLF-1008,sup-aster,3M,Paint cup for compressed-air spray gun,lack,176,piece,56.59,9959.84,EUR,9959.84,synthetic-spend-FR.csv,True,direct
+FR-PREVIOUS-0005,FR,2026-05,2026-05-25,WLF-1008,sup-aster,3M,Paint cup for compressed-air spray gun,lack,181,piece,79.08,14313.48,EUR,14313.48,synthetic-spend-FR.csv,True,direct
+FR-PREVIOUS-0006,FR,2026-06,2026-06-16,WLF-1008,sup-aster,3M,Paint cup for compressed-air spray gun,lack,312,piece,33.46,10439.52,EUR,10439.52,synthetic-spend-FR.csv,True,direct
+FR-PREVIOUS-0007,FR,2026-07,2026-07-20,WLF-1008,sup-aster,3M,Paint cup for compressed-air spray gun,lack,122,piece,67.93,8287.46,EUR,8287.46,synthetic-spend-FR.csv,True,direct
+FR-PREVIOUS-0008,FR,2026-08,2026-08-02,WLF-1008,sup-aster,3M,Paint cup for compressed-air spray gun,lack,122,piece,41.22,5028.84,EUR,5028.84,synthetic-spend-FR.csv,True,direct
+FR-PREVIOUS-0009,FR,2026-01,2026-01-05,WLF-1018,sup-aster,3M,One-step cutting and polishing compound,polier,33,piece,47.2,1557.6,EUR,1557.6,synthetic-spend-FR.csv,False,direct
+FR-PREVIOUS-0010,FR,2026-02,2026-02-26,WLF-1018,sup-aster,3M,One-step cutting and polishing compound,polier,293,piece,71.28,20885.04,EUR,20885.04,synthetic-spend-FR.csv,False,direct
+FR-PREVIOUS-0011,FR,2026-03,2026-03-17,WLF-1018,sup-aster,3M,One-step cutting and polishing compound,polier,124,piece,38.55,4780.2,EUR,4780.2,synthetic-spend-FR.csv,False,direct
+FR-PREVIOUS-0012,FR,2026-04,2026-04-15,WLF-1018,sup-aster,3M,One-step cutting and polishing compound,polier,297,piece,75.48,22417.56,EUR,22417.56,synthetic-spend-FR.csv,False,direct
+FR-PREVIOUS-0013,FR,2026-05,2026-05-02,WLF-1018,sup-aster,3M,One-step cutting and polishing compound,polier,29,piece,7.19,208.51,EUR,208.51,synthetic-spend-FR.csv,False,direct
+FR-PREVIOUS-0014,FR,2026-06,2026-06-08,WLF-1018,sup-aster,3M,One-step cutting and polishing compound,polier,220,piece,19.05,4191.0,EUR,4191.0,synthetic-spend-FR.csv,False,direct
+FR-PREVIOUS-0015,FR,2026-07,2026-07-27,WLF-1018,sup-aster,3M,One-step cutting and polishing compound,polier,310,piece,36.92,11445.2,EUR,11445.2,synthetic-spend-FR.csv,False,direct
+FR-PREVIOUS-0016,FR,2026-08,2026-08-15,WLF-1018,sup-aster,3M,One-step cutting and polishing compound,polier,256,piece,43.4,11110.4,EUR,11110.4,synthetic-spend-FR.csv,False,direct
+FR-UNCHANGED-0001,FR,2026-01,2026-01-01,WLF-1001,sup-novex,Mirka,Graduated mixing cup,lack,118,piece,20.98,2475.64,EUR,2475.64,synthetic-spend-FR.csv,True,indirect
+FR-UNCHANGED-0002,FR,2026-02,2026-02-21,WLF-1001,sup-novex,Mirka,Graduated mixing cup,lack,24,piece,20.98,503.52,EUR,503.52,synthetic-spend-FR.csv,True,indirect
+FR-UNCHANGED-0003,FR,2026-03,2026-03-06,WLF-1001,sup-novex,Mirka,Graduated mixing cup,lack,138,piece,20.98,2895.24,EUR,2895.24,synthetic-spend-FR.csv,True,indirect
+FR-UNCHANGED-0004,FR,2026-04,2026-04-06,WLF-1001,sup-novex,Mirka,Graduated mixing cup,lack,310,piece,20.98,6503.8,EUR,6503.8,synthetic-spend-FR.csv,True,indirect
+FR-UNCHANGED-0005,FR,2026-05,2026-05-05,WLF-1001,sup-novex,Mirka,Graduated mixing cup,lack,136,piece,20.98,2853.28,EUR,2853.28,synthetic-spend-FR.csv,True,indirect
+FR-UNCHANGED-0006,FR,2026-06,2026-06-11,WLF-1001,sup-novex,Mirka,Graduated mixing cup,lack,277,piece,20.98,5811.46,EUR,5811.46,synthetic-spend-FR.csv,True,indirect
+FR-UNCHANGED-0007,FR,2026-07,2026-07-13,WLF-1001,sup-novex,Mirka,Graduated mixing cup,lack,123,piece,20.98,2580.54,EUR,2580.54,synthetic-spend-FR.csv,True,indirect
+FR-UNCHANGED-0008,FR,2026-08,2026-08-13,WLF-1001,sup-novex,Mirka,Graduated mixing cup,lack,96,piece,20.98,2014.08,EUR,2014.08,synthetic-spend-FR.csv,True,indirect

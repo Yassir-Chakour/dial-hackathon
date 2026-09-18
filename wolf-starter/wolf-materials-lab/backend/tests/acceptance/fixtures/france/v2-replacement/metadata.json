@@ -1,0 +1,8 @@
+{
+  "market": "FR",
+  "version": "FR-v2",
+  "mode": "replace_supplier_subset",
+  "scope_supplier_id": "sup-aster",
+  "row_count": 16,
+  "total_eur": "90909.28"
+}

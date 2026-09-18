@@ -1,0 +1,10 @@
+{
+  "market": "FR",
+  "version": "FR-v1",
+  "row_count": 24,
+  "supplier_counts": {
+    "sup-aster": 16,
+    "sup-novex": 8
+  },
+  "total_eur": "171941.83"
+}
