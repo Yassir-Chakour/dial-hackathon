@@ -52,7 +52,9 @@ export const paths = {
     ausschreibung: `${ROOTS.DASHBOARD}/ausschreibung`,
     vertraege: `${ROOTS.DASHBOARD}/vertraege`,
     entscheidung: `${ROOTS.DASHBOARD}/entscheidung`,
+    franceUpdate: `${ROOTS.DASHBOARD}/france-update`,
     reifegrad: `${ROOTS.DASHBOARD}/reifegrad`,
     academy: `${ROOTS.DASHBOARD}/academy`,
   },
 };
+

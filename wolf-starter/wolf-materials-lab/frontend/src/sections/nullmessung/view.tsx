@@ -12,8 +12,8 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import {
   fmtEURk,
   rawSamples,
-  refProducts,
   brandColor,
+  refProducts,
   rfiSuppliers,
   nullmessungMeta,
   nullmessungInsights,

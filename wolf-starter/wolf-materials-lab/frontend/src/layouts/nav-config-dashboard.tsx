@@ -72,8 +72,15 @@ export const navData: NavSectionProps['data'] = [
       { title: 'Tender', path: paths.dashboard.ausschreibung, icon: ICONS.invoice },
       { title: 'Contracts', path: paths.dashboard.vertraege, icon: ICONS.order },
       { title: 'Decision', path: paths.dashboard.entscheidung, icon: ICONS.tour },
+      {
+        title: 'France Update',
+        path: paths.dashboard.franceUpdate,
+        icon: ICONS.file,
+        info: <Label color="info">v2</Label>,
+      },
     ],
   },
+
   
   {
     subheader: 'Enablement',
