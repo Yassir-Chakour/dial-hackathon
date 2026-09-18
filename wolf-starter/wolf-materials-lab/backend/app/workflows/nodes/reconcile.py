@@ -36,7 +36,11 @@ def reconcile_node(session: Session, state: WorkflowState) -> dict[str, Any]:
     if not previous_id:
         # Find current active version for market
         source_repo = SourceRepository()
-        curr = source_repo.get_current_version(session, state["market"])
+        curr = source_repo.get_current_version(
+            session,
+            state["market"],
+            exclude_version_id=incoming_id,
+        )
         if curr:
             previous_id = curr.id
         else:

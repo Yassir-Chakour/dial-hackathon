@@ -93,10 +93,27 @@ class SourceRepository:
         session.flush()
         return version
 
-    def get_current_version(self, session: Session, market: str) -> SourceVersion | None:
-        """Return the latest accepted version for a market."""
-        return session.scalar(select(SourceVersion).where(SourceVersion.market == market,
-                                                          SourceVersion.status == SourceStatus.ACCEPTED.value)
+    def get_current_version(
+        self,
+        session: Session,
+        market: str,
+        *,
+        exclude_version_id: str | None = None,
+    ) -> SourceVersion | None:
+        """Return the latest committed accepted version for a market.
+
+        A source can be syntactically accepted by ingestion before reconciliation
+        commits it. ``accepted_at`` is therefore the commit marker, and the
+        incoming version must never be selected as its own predecessor.
+        """
+        query = select(SourceVersion).where(
+            SourceVersion.market == market,
+            SourceVersion.status == SourceStatus.ACCEPTED.value,
+            SourceVersion.accepted_at.is_not(None),
+        )
+        if exclude_version_id is not None:
+            query = query.where(SourceVersion.id != exclude_version_id)
+        return session.scalar(query
                               .order_by(SourceVersion.created_at.desc()))
 
     def insert_source_records(self, session: Session, version_id: str, records: list[dict[str, Any]]) -> list[SourceRecord]:
