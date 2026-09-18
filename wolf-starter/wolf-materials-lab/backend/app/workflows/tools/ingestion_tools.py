@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.db.models import SourceFile
 from app.ingestion.csv_reader import read_csv_rows
 from app.ingestion.headers import detect_header_context
+from app.persistence import SourceRepository
 from app.services.ingestion_service import IngestionService
 from app.workflows.tools.contracts import (
     IngestSourceInput,
@@ -17,10 +18,12 @@ from app.workflows.tools.contracts import (
 def inspect_source_tool(session: Session, payload: InspectSourceInput) -> InspectSourceOutput:
     """Safely inspects file structure without database mutation."""
     source_file = session.get(SourceFile, payload.source_file_id)
-    if source_file is None or not source_file.content:
-        raise ValueError(f"Source file {payload.source_file_id} does not exist or has no content.")
+    if source_file is None:
+        raise ValueError(f"Source file {payload.source_file_id} does not exist.")
 
-    rows = read_csv_rows(source_file.content, source_file.original_filename, source_version_id="inspect-temp")
+    content = SourceRepository().read_source_content(source_file)
+
+    rows = read_csv_rows(content, source_file.original_filename, source_version_id="inspect-temp")
     header_context, _ = detect_header_context(rows)
 
     candidate_headers = list(header_context.raw_labels)
@@ -39,13 +42,15 @@ def inspect_source_tool(session: Session, payload: InspectSourceInput) -> Inspec
 def ingest_source_tool(session: Session, payload: IngestSourceInput) -> IngestSourceOutput:
     """Executes deterministic Phase Three ingestion and returns canonical metadata."""
     source_file = session.get(SourceFile, payload.source_file_id)
-    if source_file is None or not source_file.content:
-        raise ValueError(f"Source file {payload.source_file_id} does not exist or has no content.")
+    if source_file is None:
+        raise ValueError(f"Source file {payload.source_file_id} does not exist.")
+
+    content = SourceRepository().read_source_content(source_file)
 
     service = IngestionService()
     res = service.ingest_csv(
         session,
-        content=source_file.content,
+        content=content,
         filename=source_file.original_filename,
         event_key=payload.event_key,
         tenant_id=payload.tenant_id,

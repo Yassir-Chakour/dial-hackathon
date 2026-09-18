@@ -64,6 +64,14 @@ class SourceRepository:
     def find_source_by_hash(self, session: Session, sha256: str, tenant_id: str | None = None) -> SourceFile | None:
         return session.scalar(select(SourceFile).where(SourceFile.sha256 == sha256, SourceFile.tenant_id == tenant_id))
 
+    def read_source_content(self, source: SourceFile) -> bytes:
+        """Read source bytes from the configured private storage backend."""
+        if source.content is not None:
+            return source.content
+        if self.storage is not None and source.object_key:
+            return self.storage.get(source.object_key)
+        raise PersistenceError(f"Source file {source.id} has no readable content.")
+
     def create_source_file(self, session: Session, *, content: bytes, filename: str, media_type: str,
                            source_system: str | None = None, tenant_id: str | None = None,
                            metadata: dict[str, Any] | None = None, synthetic: bool = True) -> SourceFile:
