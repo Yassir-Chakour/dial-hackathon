@@ -39,7 +39,7 @@ class HungaryMarketRules:
 
     market_code = "HU"
     rules_version = HUNGARY_RULES_VERSION
-    supported_currencies = ("HUF", "EUR")
+    supported_currencies: tuple[str, ...] = ("HUF", "EUR")
 
     def inspect_structure(
         self, rows: list[SourceRow], header_context: HeaderContext | None = None
@@ -185,9 +185,11 @@ class HungaryMarketRules:
             if r.currency and r.currency not in self.supported_currencies:
                 review_items.append(
                     ReviewItem(
-                        item_type="unsupported_currency",
-                        source_record_key=r.source_record_key,
-                        message=f"Currency '{r.currency}' not permitted for Hungary.",
+                        source_version_id=r.source_version_id,
+                        source_row_number=r.source_row_number,
+                        field_name="currency",
+                        raw_value=r.currency,
+                        reason_code="unsupported_currency",
                         severity="error",
                     )
                 )

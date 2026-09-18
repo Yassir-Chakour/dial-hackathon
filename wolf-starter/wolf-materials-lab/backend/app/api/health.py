@@ -5,7 +5,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Request, status
 from starlette.responses import JSONResponse, Response
 
-from app.config import Settings, get_settings
+from app.config import Settings, get_settings_dependency
 from app.schemas.common import ServiceStatus
 
 router = APIRouter(prefix="/health", tags=["health"])
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/health", tags=["health"])
 
 @router.get("/live", response_model=ServiceStatus, status_code=status.HTTP_200_OK)
 async def liveness(
-    settings: Annotated[Settings, Depends(get_settings)],
+    settings: Annotated[Settings, Depends(get_settings_dependency)],
 ) -> ServiceStatus:
     """Liveness probe: answers whether the process is running.
 
@@ -29,7 +29,7 @@ async def liveness(
 @router.get("/ready", response_model=ServiceStatus, status_code=status.HTTP_200_OK)
 async def readiness(
     request: Request,
-    settings: Annotated[Settings, Depends(get_settings)],
+    settings: Annotated[Settings, Depends(get_settings_dependency)],
 ) -> Response:
     """Readiness probe: answers whether the application is configured to accept work.
 

@@ -78,6 +78,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = Field(default_factory=list)
     api_host: str = "127.0.0.1"
     api_port: int = Field(default=8000, ge=1, le=65535)
+    allow_external_bind: bool = False
 
     database_url: str = "sqlite:///./data/wolf-materials.db"
     database_echo: bool = False
@@ -85,6 +86,8 @@ class Settings(BaseSettings):
     database_auto_create: bool = False
     source_storage_mode: SourceStorageMode = "database"
     source_max_bytes: int = Field(default=25_000_000, ge=1, le=1_000_000_000)
+    object_storage_dir: str = "./data/objects"
+    worker_max_attempts: int = Field(default=3, ge=1, le=20)
 
     # Optional server-side model configuration for later phases
     model_base_url: str | None = None
@@ -113,9 +116,9 @@ class Settings(BaseSettings):
         if self.app_env == "production":
             if "*" in self.cors_origins:
                 raise ValueError("Wildcard CORS origins are forbidden in production.")
-            if self.api_host == "0.0.0.0":
+            if self.api_host == "0.0.0.0" and not self.allow_external_bind:
                 raise ValueError(
-                    "Binding to 0.0.0.0 is prohibited in production without explicit deployment setting."
+                    "Binding to 0.0.0.0 is prohibited in production unless ALLOW_EXTERNAL_BIND=true."
                 )
             if self.log_level == "DEBUG":
                 raise ValueError("DEBUG log level is not allowed in production.")
@@ -127,3 +130,8 @@ class Settings(BaseSettings):
 def get_settings() -> Settings:
     """Return cached application settings."""
     return Settings()
+
+
+async def get_settings_dependency() -> Settings:
+    """Async FastAPI dependency wrapper around the cached settings object."""
+    return get_settings()

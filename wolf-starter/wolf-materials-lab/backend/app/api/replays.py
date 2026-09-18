@@ -11,7 +11,7 @@ router = APIRouter(tags=["replays"])
 
 
 @router.post("/replays", response_model=ReplayResponse)
-def replay_event(
+async def replay_event(
     payload: ReplayRequest,
     session: Session = Depends(get_db),
 ) -> ReplayResponse:
@@ -38,7 +38,7 @@ def replay_event(
 
 
 @router.get("/replays/{replay_id}", response_model=ReplayResponse)
-def get_replay_status(
+async def get_replay_status(
     replay_id: str,
     session: Session = Depends(get_db),
 ) -> ReplayResponse:

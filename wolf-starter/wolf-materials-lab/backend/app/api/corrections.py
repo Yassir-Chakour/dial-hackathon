@@ -33,7 +33,7 @@ ALLOWED_CORRECTION_FIELDS = {
     response_model=CorrectionDetailResponse,
     status_code=status.HTTP_201_CREATED,
 )
-def submit_correction(
+async def submit_correction(
     recommendation_id: str,
     payload: SubmitCorrectionRequest,
     session: Session = Depends(get_db),
@@ -98,7 +98,7 @@ def submit_correction(
 
 
 @router.get("/corrections/{correction_id}", response_model=CorrectionDetailResponse)
-def get_correction(
+async def get_correction(
     correction_id: str,
     session: Session = Depends(get_db),
 ) -> CorrectionDetailResponse:

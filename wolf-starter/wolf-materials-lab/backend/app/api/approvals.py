@@ -11,7 +11,7 @@ router = APIRouter(tags=["approvals"])
 
 
 @router.post("/approvals/{approval_id}/revoke", response_model=ApprovalResponse)
-def revoke_approval(
+async def revoke_approval(
     approval_id: str,
     payload: RevokeApprovalRequest,
     session: Session = Depends(get_db),

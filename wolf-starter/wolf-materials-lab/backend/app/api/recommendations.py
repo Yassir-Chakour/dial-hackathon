@@ -37,7 +37,7 @@ def _allowed_actions(rec_status: str) -> list[str]:
 
 
 @router.get("/recommendations", response_model=list[RecommendationSummary])
-def list_recommendations(
+async def list_recommendations(
     market: str | None = Query(None),
     status_filter: str | None = Query(None, alias="status"),
     source_version_id: str | None = Query(None),
@@ -72,7 +72,7 @@ def list_recommendations(
 
 
 @router.get("/recommendations/{recommendation_id}", response_model=RecommendationDetail)
-def get_recommendation(
+async def get_recommendation(
     recommendation_id: str,
     session: Session = Depends(get_db),
 ) -> RecommendationDetail:
@@ -95,7 +95,7 @@ def get_recommendation(
 
 
 @router.get("/recommendations/{recommendation_id}/changes", response_model=RecommendationChangesResponse)
-def get_recommendation_changes(
+async def get_recommendation_changes(
     recommendation_id: str,
     session: Session = Depends(get_db),
 ) -> RecommendationChangesResponse:
@@ -142,7 +142,7 @@ def get_recommendation_changes(
 
 
 @router.get("/recommendations/{recommendation_id}/history", response_model=list[RecommendationHistoryItem])
-def get_recommendation_history(
+async def get_recommendation_history(
     recommendation_id: str,
     session: Session = Depends(get_db),
 ) -> list[RecommendationHistoryItem]:
@@ -202,7 +202,7 @@ def get_recommendation_history(
 
 
 @router.post("/recommendations/{recommendation_id}/approve", response_model=ApprovalResponse)
-def approve_recommendation(
+async def approve_recommendation(
     recommendation_id: str,
     payload: ApproveRecommendationRequest,
     session: Session = Depends(get_db),
@@ -266,7 +266,7 @@ def approve_recommendation(
 
 
 @router.post("/recommendations/{recommendation_id}/reject", response_model=ApprovalResponse)
-def reject_recommendation(
+async def reject_recommendation(
     recommendation_id: str,
     payload: RejectRecommendationRequest,
     session: Session = Depends(get_db),

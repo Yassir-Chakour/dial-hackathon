@@ -83,7 +83,7 @@ async def upload_source(
 
 
 @router.get("/sources/{source_id}", response_model=SourceDetailResponse)
-def get_source_detail(
+async def get_source_detail(
     source_id: str,
     session: Session = Depends(get_db),
 ) -> SourceDetailResponse:
@@ -105,7 +105,7 @@ def get_source_detail(
 
 
 @router.get("/sources/{source_id}/versions", response_model=list[SourceVersionItem])
-def get_source_versions(
+async def get_source_versions(
     source_id: str,
     session: Session = Depends(get_db),
 ) -> list[SourceVersionItem]:
@@ -133,7 +133,7 @@ def get_source_versions(
 
 
 @router.post("/source-versions/{version_id}/process", response_model=dict[str, str])
-def process_source_version(
+async def process_source_version(
     version_id: str,
     payload: ProcessVersionRequest | None = None,
     session: Session = Depends(get_db),

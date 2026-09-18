@@ -14,7 +14,7 @@ router = APIRouter(tags=["review_queue"])
 
 
 @router.get("/review-queue", response_model=list[ReviewQueueItem])
-def list_review_queue(
+async def list_review_queue(
     session: Session = Depends(get_db),
 ) -> list[ReviewQueueItem]:
     """List all workflow runs currently paused and awaiting reviewer action."""
@@ -59,7 +59,7 @@ def list_review_queue(
 
 
 @router.post("/review-queue/{run_id}/resolve", response_model=dict[str, str])
-def resolve_review_item(
+async def resolve_review_item(
     run_id: str,
     payload: ResolveReviewQueueRequest,
     session: Session = Depends(get_db),
@@ -97,7 +97,7 @@ def resolve_review_item(
 
 
 @router.get("/exceptions", response_model=list[ExceptionItem])
-def list_exceptions(
+async def list_exceptions(
     severity: str | None = Query(None),
     code: str | None = Query(None),
     limit: int = Query(50, ge=1, le=200),

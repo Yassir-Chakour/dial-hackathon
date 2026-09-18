@@ -1,4 +1,4 @@
-from collections.abc import AsyncGenerator, Generator
+from collections.abc import AsyncGenerator
 from pathlib import Path
 
 import pytest
@@ -71,7 +71,7 @@ def app(test_settings: Settings, tmp_path: Path):
     application = build_app(settings=settings)
     application.include_router(create_test_router())
 
-    def override_get_db() -> Generator[Session, None, None]:
+    async def override_get_db() -> AsyncGenerator[Session, None]:
         with db.session() as session:
             try:
                 yield session

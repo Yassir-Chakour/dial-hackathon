@@ -46,7 +46,7 @@ class ItalyMarketRules:
 
     market_code = "IT"
     rules_version = ITALY_RULES_VERSION
-    supported_currencies = ("EUR",)
+    supported_currencies: tuple[str, ...] = ("EUR",)
 
     def inspect_structure(
         self, rows: list[SourceRow], header_context: HeaderContext | None = None
@@ -195,9 +195,11 @@ class ItalyMarketRules:
             if r.currency and r.currency not in self.supported_currencies:
                 review_items.append(
                     ReviewItem(
-                        item_type="unsupported_currency",
-                        source_record_key=r.source_record_key,
-                        message=f"Currency '{r.currency}' not supported for Italy.",
+                        source_version_id=r.source_version_id,
+                        source_row_number=r.source_row_number,
+                        field_name="currency",
+                        raw_value=r.currency,
+                        reason_code="unsupported_currency",
                         severity="error",
                     )
                 )

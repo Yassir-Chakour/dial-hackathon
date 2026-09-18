@@ -22,7 +22,7 @@ from app.api.replays import router as replays_router
 from app.api.review_queue import router as review_queue_router
 from app.api.sources import router as sources_router
 from app.api.workflows import router as workflows_router
-from app.config import Settings, get_settings
+from app.config import Settings, get_settings, get_settings_dependency
 from app.logging import RequestCorrelationMiddleware, configure_logging
 
 
@@ -62,8 +62,12 @@ def build_app(settings: Settings | None = None, is_ready: bool = True) -> FastAP
     app.state.settings = active_settings
     app.state.is_ready = is_ready
 
-    # Dependency override ensures routes depending on get_settings receive active_settings
-    app.dependency_overrides[get_settings] = lambda: active_settings
+    # Async overrides avoid blocking the request threadpool in ASGI deployments.
+    async def override_settings() -> Settings:
+        return active_settings
+
+    app.dependency_overrides[get_settings] = override_settings
+    app.dependency_overrides[get_settings_dependency] = override_settings
 
     # Correlation and access logging middleware
     app.add_middleware(RequestCorrelationMiddleware)

@@ -12,7 +12,7 @@ router = APIRouter(tags=["evidence"])
 
 
 @router.get("/evidence/{evidence_id}", response_model=EvidenceDetailResponse)
-def get_evidence_detail(
+async def get_evidence_detail(
     evidence_id: str,
     session: Session = Depends(get_db),
 ) -> EvidenceDetailResponse:
@@ -32,7 +32,7 @@ def get_evidence_detail(
 
 
 @router.get("/recommendations/{recommendation_id}/evidence", response_model=list[EvidenceDetailResponse])
-def get_recommendation_evidence(
+async def get_recommendation_evidence(
     recommendation_id: str,
     session: Session = Depends(get_db),
 ) -> list[EvidenceDetailResponse]:
@@ -61,7 +61,7 @@ def get_recommendation_evidence(
 
 
 @router.get("/records/{record_id}/lineage", response_model=RecordLineageResponse)
-def get_record_lineage(
+async def get_record_lineage(
     record_id: str,
     session: Session = Depends(get_db),
 ) -> RecordLineageResponse:

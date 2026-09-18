@@ -13,6 +13,7 @@ from app.db.models import (
     Approval, Correction, EventStatus, EvidenceLink, Recommendation, RecommendationStatus,
     SourceFile, SourceRecord, SourceStatus, SourceVersion, WorkflowEvent, now_utc,
 )
+from app.storage import PrivateObjectStore
 
 
 class PersistenceError(Exception):
@@ -47,6 +48,19 @@ class EventResult:
 
 
 class SourceRepository:
+    def __init__(self, storage: PrivateObjectStore | None = None) -> None:
+        self.storage: PrivateObjectStore | None = storage
+        if storage is not None:
+            return
+        from app.config import get_settings
+
+        settings = get_settings()
+        self.storage = (
+            PrivateObjectStore(settings.object_storage_dir)
+            if settings.source_storage_mode == "object_storage"
+            else None
+        )
+
     def find_source_by_hash(self, session: Session, sha256: str, tenant_id: str | None = None) -> SourceFile | None:
         return session.scalar(select(SourceFile).where(SourceFile.sha256 == sha256, SourceFile.tenant_id == tenant_id))
 
@@ -54,8 +68,12 @@ class SourceRepository:
                            source_system: str | None = None, tenant_id: str | None = None,
                            metadata: dict[str, Any] | None = None, synthetic: bool = True) -> SourceFile:
         source = SourceFile(original_filename=filename[:256], media_type=media_type[:128], size_bytes=len(content),
-                            sha256=sha256_bytes(content), content=content, source_system=source_system,
-                            tenant_id=tenant_id, metadata_json=metadata or {}, synthetic=synthetic)
+                            sha256=sha256_bytes(content), content=None if self.storage else content,
+                            source_system=source_system, tenant_id=tenant_id,
+                            metadata_json=metadata or {}, synthetic=synthetic)
+        if self.storage:
+            stored = self.storage.put(content, media_type=media_type[:128])
+            source.object_key = stored.object_key
         session.add(source)
         session.flush()
         return source

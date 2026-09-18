@@ -1,6 +1,6 @@
 """SQLAlchemy engine, session factory and transaction helpers."""
 
-from collections.abc import Generator
+from collections.abc import AsyncGenerator, Generator
 from contextlib import contextmanager
 from pathlib import Path
 
@@ -73,7 +73,7 @@ def get_database(settings: Settings | None = None) -> Database:
     return _databases[url]
 
 
-def get_db() -> Generator[Session, None, None]:
+async def get_db() -> AsyncGenerator[Session, None]:
     """FastAPI dependency that yields an active database session."""
     db = get_database()
     with db.session() as session:
@@ -83,4 +83,3 @@ def get_db() -> Generator[Session, None, None]:
         except Exception:
             session.rollback()
             raise
-

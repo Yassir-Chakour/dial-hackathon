@@ -48,7 +48,7 @@ def _build_run_detail(run: WorkflowRun) -> WorkflowRunDetailResponse:
 
 
 @router.get("/workflow-runs/{run_id}", response_model=WorkflowRunDetailResponse)
-def get_workflow_run(
+async def get_workflow_run(
     run_id: str,
     session: Session = Depends(get_db),
 ) -> WorkflowRunDetailResponse:
@@ -60,7 +60,7 @@ def get_workflow_run(
 
 
 @router.post("/workflow-runs/{run_id}/resume", response_model=WorkflowRunDetailResponse)
-def resume_workflow_run(
+async def resume_workflow_run(
     run_id: str,
     payload: ResumeRunRequest,
     session: Session = Depends(get_db),
@@ -93,7 +93,7 @@ def resume_workflow_run(
 
 
 @router.post("/workflow-runs/{run_id}/cancel", response_model=dict[str, str])
-def cancel_workflow_run(
+async def cancel_workflow_run(
     run_id: str,
     session: Session = Depends(get_db),
 ) -> dict[str, str]:
